@@ -3,6 +3,7 @@ name = "data_structures"
 version = "0.1.0"
 edition = "2018"
 authors = ["SnefDen from SnefDenGames"]
+repository = "https://github.com/SnefDenGames/data_structures"
 description = "This is a collection of data structures. In other words a collection of ways to handle your data in your code and/or program."
 license = "MIT OR Apache-2.0"
 keywords = ["data","structure","list","tree","set"]
