@@ -1,72 +1,77 @@
-/// anything for the dictonary data structure
-pub mod dictonary {
+/// anything for the dictionary data structure
+pub mod dictionary {
     /// a list of `Datapair`s
-    pub struct Dictonary<D> {
+    pub struct Dictionary<D> {
         /// the `Datapair`s
         pairs:Vec<Datapair<D>>
     }
-    impl<D> Dictonary<D> {
-        /// create a new `Dictonary` for D
+    impl<D> Dictionary<D> {
+        /// create a new `Dictionary` for D
         /// 
         /// # Return
         /// ```
-        /// Dictonary<D>
+        /// Dictionary<D>
         /// ```
         /// 
         /// # Examples
         /// ```
-        /// // creating dictonary
-        /// let mut dictonary:Dictonary<u8> = Dictonary::new();
+        /// let dictonary:Dictionary<String> = Dictionary::new();
         /// ```
         /// 
         /// # Coution
         /// The type for the data has to be set.
         /// Wrong example:
         /// ```
-        /// let dictonary = Dictonary::new();
+        /// let dictionary = Dictionary::new();
         /// ```
         /// This gives an error, because the type for the data is not clear.
         pub fn new() -> Self {
-            Dictonary {
+            Dictionary {
                 pairs:Vec::new()
             }
         }
-        /// add a pair to the `Dictonary`
+        /// add data to the `Dictionary`
         /// 
         /// # Params
         /// ```
-        /// k:String // the key
-        /// d:D // the data
+        /// p: Datapair<D>
         /// ```
         /// 
         /// # Example
         /// ```
-        /// // creating dictonary
-        /// let mut dictonary:Dictonary<u8> = Dictonary::new();
-        /// 
-        /// // add pair
-        /// dictonary.add_pair("one".to_string(),1_u8);
+        /// dictionary.add(String::from("Lola"),String::from("Sky"));
         /// ```
-        pub fn add_pair(&mut self,k:String,d:D) {
+        pub fn add(&mut self,k:String,d:D) {
             self.pairs.push(Datapair::new(k,d));
         }
-        /// removes a pair from the `Dictonary`
+        /// add a pair to the `Dictionary`
         /// 
         /// # Params
         /// ```
-        /// k:String // the key
+        /// k: String // the key
+        /// d: D // the data
         /// ```
         /// 
         /// # Example
         /// ```
-        /// // creating dictonary
-        /// let mut dictonary:Dictonary<u8> = Dictonary::new();
-        /// dictonary.add_pair("one".to_string(),1_u8);
-        /// 
-        /// // remove pair
-        /// dictonary.remove_pair("one");
+        /// let pair: Datapair<String> = Datapair::new(String::from("Marie"),String::from("Karate"))
+        /// dictionary.add_pair(pair);   
         /// ```
-        pub fn remove_pair(&mut self,k:String) {
+        pub fn add_pair(&mut self,p: Datapair<D>) {
+            self.pairs.push(p);
+        }
+        /// removes a pair from the `Dictionary`
+        /// 
+        /// # Params
+        /// ```
+        /// k: String // the key
+        /// ```
+        /// 
+        /// # Example
+        /// ```
+        /// dictionary.remove(String::from("Lola"));
+        /// ```
+        pub fn remove(&mut self,k:String) {
             self.pairs.retain(|x| x.get_key() != &k);
         }
         /// changes the data for the given key
@@ -79,12 +84,7 @@ pub mod dictonary {
         /// 
         /// # Example
         /// ```
-        /// // creating dictonary
-        /// let mut dictonary:Dictonary<u8> = Dictonary::new();
-        /// dictonary.add_pair("one".to_string(),0_u8);
-        /// 
-        /// // change data
-        /// dictonary.change_data("one".to_string(),1_u8);
+        /// dictionary.change_data(String::from("Maxime"),String::from("Swimming"));
         /// ```
         pub fn change_data(&mut self,k:String,d:D) {
             let l = *&self.pairs.len();
@@ -107,12 +107,7 @@ pub mod dictonary {
         /// 
         /// # Example
         /// ```
-        /// // creating dictonary
-        /// let mut dictonary:Dictonary<u8> = Dictonary::new();
-        /// dictonary.add_pair("one".to_string(),0_u8);
-        /// 
-        /// // change key
-        /// dictonary.change_key("one".to_string(),"zero".to_string());
+        /// dictionary.change_key(String::from("Anna"),String::from("Anna-Lena"));
         /// ```
         pub fn change_key(&mut self,ok:String,nk:String) {
             let l = *&self.pairs.len();
@@ -139,12 +134,7 @@ pub mod dictonary {
         /// 
         /// # Example
         /// ```
-        /// // creating dictonary
-        /// let mut dictonary:Dictonary<u8> = Dictonary::new();
-        /// dictonary.add_pair("one".to_string(),1_u8);
-        /// 
-        /// // get pair
-        /// let pair = ("one",dictonary.get_data("one".to_string()));
+        /// let pair:Datapair<String> = dictionary.get_pair(String::from("Anna"));
         /// ```
         pub fn get_pair(&self, k:String) -> &Datapair<D> {
             let l = *&self.pairs.len();
@@ -171,12 +161,7 @@ pub mod dictonary {
         /// 
         /// # Example
         /// ```
-        /// // creating dictonary
-        /// let mut dictonary:Dictonary<u8> = Dictonary::new();
-        /// dictonary.add_pair("one".to_string(),1_u8);
-        /// 
-        /// // get data
-        /// let data = dictonary.get_data("Laila".to_string());
+        /// let hobby = dictionary.get_data(String::from("Anna"));
         /// ```
         pub fn get_data(&self, k:String) -> &D {
             let l = *&self.pairs.len();
@@ -189,20 +174,76 @@ pub mod dictonary {
             }
             &self.pairs[i].get_data()
         }
-        /// clears the `Dictonary`
+        /// clears the `Dictionary`
         /// 
         /// # Example
         /// ```
-        /// // creating dictonary
-        /// let mut dictonary:Dictonary<u8> = Dictonary::new();
-        /// dictonary.add_pair("one".to_string(),1_u8);
-        /// dictonary.add_pair("two".to_string(),2_u8);
-        /// 
-        /// // clear all pairs
-        /// dictonary.clear();
+        /// dictionary.clear();
         /// ```
         pub fn clear(&mut self) {
             self.pairs  =   Vec::new();
+        }
+        /// gives you how many pairs are in the `Dictionary`
+        /// 
+        /// # Returns
+        /// ```
+        /// usize
+        /// ```
+        /// 
+        /// # Example
+        /// ```
+        /// let size:usize = dictionary.size();
+        /// ```
+        pub fn size(&self) -> usize {
+            *&self.pairs.len()
+        }
+    }
+    impl<D: Clone> Clone for Dictionary<D> {
+        fn clone(&self) -> Self {
+            Dictionary {
+                pairs: self.pairs.clone()
+            }
+        }
+    }
+    impl<D: std::fmt::Display + Clone> std::fmt::Display for Dictionary<D> {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            let open = String::from("\u{007B}");
+            let close = String::from("\u{007D}");
+            let mut text = String::new();
+            for element in &self.pairs {
+                if element.get_key() == self.pairs[0].get_key() {
+                    text = format!("{}\n{}",text,element);
+                } else if element.get_key() == self.pairs[self.size()-1].get_key() {
+                    text = format!("{}\n{}\n",text,element);
+                } else {
+                    text = format!("{},\n\t{}",text,element);
+                }
+            }
+            write!(f, "{}{}{}", open, text, close)
+        }
+    }
+    impl<D: PartialEq> PartialEq for Dictionary<D> {
+        fn eq(&self, other: &Self) -> bool {
+            if self.pairs.len() == other.pairs.len() {
+                for i in 0..self.pairs.len() {
+                    if self.pairs[i] != other.pairs[i] {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+        fn ne(&self, other: &Self) -> bool {
+            if self.pairs.len() == other.pairs.len() {
+                for i in 0..self.pairs.len() {
+                    if self.pairs[i] != other.pairs[i] {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            return true;
         }
     }
 
@@ -226,19 +267,19 @@ pub mod dictonary {
         /// 
         /// # Returns
         /// ```
-        /// Dictonary<D>
+        /// Datapair<D>
         /// ```
         /// 
         /// # Example
         /// ```
-        /// let datapair:Datapair<u8> = Datapair::new("key".to_string(),0_u8);
+        /// let datapair:Datapair<u8> = Datapair::new(String::from("key"),0_u8);
         /// ```
         /// 
         /// # Coution
         /// The type for the data has to be set.
         /// Wrong example:
         /// ```
-        /// let datapair = Datapair::new("key".to_string(),0);
+        /// let datapair = Datapair::new(String::from("key"),0);
         /// ```
         /// This gives an error, because the type for the data is not clear.
         pub fn new(k:String,d:D) -> Self {
@@ -257,10 +298,10 @@ pub mod dictonary {
         /// # Example
         /// ```
         /// // create datapair
-        /// let mut datapair:Datapair<u8> = Datapair::new("key".to_string(),0_u8);
+        /// let mut datapair:Datapair<u8> = Datapair::new(String::from("key"),0_u8);
         /// 
         /// // set new key
-        /// datapair.set_key("new".to_string());
+        /// datapair.set_key(String::from("new"));
         /// ```
         pub fn set_key(&mut self,k:String) {
             self.key    =   k;
@@ -275,7 +316,7 @@ pub mod dictonary {
         /// # Example
         /// ```
         /// // create datapair
-        /// let mut datapair:Datapair<u8> = Datapair::new("key".to_string(),0_u8);
+        /// let mut datapair:Datapair<u8> = Datapair::new(String::from("key"),0_u8);
         /// 
         /// // get key
         /// let key = datapair.get_key();
@@ -293,7 +334,7 @@ pub mod dictonary {
         /// # Example
         /// ```
         /// // create datapair
-        /// let mut datapair:Datapair<u8> = Datapair::new("key".to_string(),0_u8);
+        /// let mut datapair:Datapair<u8> = Datapair::new(String::from("key"),0_u8);
         /// 
         /// // set new data
         /// datapair.set_data(1_u8);
@@ -311,13 +352,43 @@ pub mod dictonary {
         /// # Example
         /// ```
         /// // create datapair
-        /// let mut datapair:Datapair<u8> = Datapair::new("key".to_string(),0_u8);
+        /// let mut datapair:Datapair<u8> = Datapair::new(String::from("key"),0_u8);
         /// 
         /// // get the data
         /// let data = datapair.get_data();
         /// ```
         pub fn get_data(&self) -> &D {
             &self.data
+        }
+    }
+    impl<D: Clone> Clone for Datapair<D> {
+        fn clone(&self) -> Self {
+            Datapair::new(self.key.clone(),self.data.clone())
+        }
+    }
+    impl<D: std::fmt::Display> std::fmt::Display for Datapair<D> {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            let open = String::from("\u{007B}");
+            let close = String::from("\u{007D}");
+            write!(f, "{}{}, {}{}", open, self.key,self.data, close)
+        }
+    }
+    impl<D: PartialEq> PartialEq for Datapair<D> {
+        fn eq(&self, other: &Self) -> bool {
+            if self.get_key() == other.get_key() {
+                if self.get_data() == other.get_data() {
+                    return true;
+                }
+            }
+            return false;
+        }
+        fn ne(&self, other: &Self) -> bool {
+            if self.get_key() == other.get_key() {
+                if self.get_data() == other.get_data() {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
