@@ -1,6 +1,6 @@
 [package]
 name = "data_structures_SD"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2018"
 authors = ["SnefDen from SnefDenGames"]
 repository = "https://github.com/SnefDenGames/data_structures"
